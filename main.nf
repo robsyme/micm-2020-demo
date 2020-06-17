@@ -24,7 +24,7 @@ process SortGreetings {
     output:
     path "sorted_names.txt"
 
-    "sort unsorted_names.txt > sorted_names.txt"
+    "sort ${params.reverse_sort ? "-r" : "" } unsorted_names.txt > sorted_names.txt"
 }
 
 process SpecialSort {
