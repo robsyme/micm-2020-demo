@@ -6,14 +6,28 @@ process SayHello {
     val name
 
     output:
-    file 'out.txt'
+    file 'complicated/output/path/*.txt'
 
-    "echo Hello $name > out.txt"
+    """
+    mkdir -p complicated/output/path
+    sleep 3
+    echo "Hi there, " $name > complicated/output/path/out.txt
+    """
+}
+
+process SortGreetings {
+    input:
+    path "unsorted_names.txt"
+
+    output:
+    path "sorted_names.txt"
+
+    "sort unsorted_names.txt > sorted_names.txt"
 }
 
 
 workflow {
     names = Channel.from(["Rob", "Rhalena", "Audrey", "Sophie", "Michael", "Juan", "Yujing", "Nahid"])
 
-    names | SayHello | view()
+    names | SayHello | collectFile() | SortGreetings
 }
