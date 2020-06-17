@@ -39,17 +39,6 @@ process SpecialSort {
     "my_special_sort.rb ${params.reverse_sort ? "--reverse" : ""} input_file.txt > sorted.txt"
 }
 
-process ConvertBamToSam {
-    input:
-    tuple sampleID, "input.bam"
-
-    output:
-    tuple sampleID, "output.sam"
-
-    """
-    samtools view input.bam > output.sam
-    """
-}
 
 params.reverse_sort = false
 
