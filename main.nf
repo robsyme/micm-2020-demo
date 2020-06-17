@@ -16,6 +16,10 @@ process SayHello {
 }
 
 process SortGreetings {
+    memory '2G'
+    time '2d'
+    cpus 2
+
     input:
     path "unsorted_names.txt"
 
