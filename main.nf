@@ -36,12 +36,15 @@ process SpecialSort {
     output:
     path "sorted.txt"
 
-    "my_special_sort.rb input_file.txt > sorted.txt"
+    "my_special_sort.rb ${params.reverse_sort ? "--reverse" : ""} input_file.txt > sorted.txt"
 }
 
+params.reverse_sort = false
 
 workflow {
     names = Channel.from(["Rob", "Rhalena", "Audrey", "Sophie", "Michael", "Juan", "Yujing", "Nahid"])
 
-    names | SayHello | collectFile() | (SortGreetings & SpecialSort)
+    names | SayHello | collectFile() | SortGreetings
+
+    SayHello.out | collectFile() | SpecialSort
 }
